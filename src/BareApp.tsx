@@ -2,20 +2,26 @@ import * as React from 'react'
 
 import './App.css'
 
-function App() {
-  const [id, setId] = React.useState(1)
+function BareApp() {
+  const [id, setId] = React.useState(3)
   const [pokemon, setPokemon] = React.useState<any>();
 
   React.useEffect(() => {
+    let ignore = false;
     const handleFetchPokemon = async () => {
       setPokemon(null);
 
       const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
       const json = await res.json();
-      setPokemon(json);
+      if (!ignore) {
+        setPokemon(json);
+      }
     }
 
     handleFetchPokemon();
+     return () => {
+      ignore = true;
+    };
   }, [id])
 
 
@@ -41,4 +47,4 @@ const Button = ({setId}: { setId: () => void}) => (
   <button onClick={setId}>Click me!</button>
 )
 
-export default App
+export default BareApp

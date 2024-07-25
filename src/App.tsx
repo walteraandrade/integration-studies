@@ -1,13 +1,14 @@
 import * as React from 'react'
-import {  useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HashLoader } from 'react-spinners';
+
 import './App.css'
 
 function App() {
   const [id, setId] = React.useState(1)
   const [pokemon, setPokemon] = React.useState<any>();
-  const { data, isPending } = useQuery({ queryKey: ['pokemon'], queryFn: () => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => setPokemon(res.data))
+  const { isPending } = useQuery({ queryKey: ['pokemon', id], queryFn: () => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => setPokemon(res.data))
   })
 
 
